@@ -66,4 +66,8 @@ Todo o código gerado foi revisado e compreendido pela equipe antes da entrega.
 
 ## Equipe
 
-- (preencher com os nomes dos integrantes)
+- Alexssandro Souza de Oliveira - 04206917
+- Alyson Raphael Cruz Santos - 04213803
+- Erielson da Silva Teles - 04211403
+- Thiago Viana Tenório - 04211037
+- João Victor Bentes - 04211861
