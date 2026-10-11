@@ -1,73 +1,103 @@
 # Estoque Fácil
 
-Aplicação **One Page** em Vue.js para controle simples de produtos em estoque, desenvolvida como atividade da disciplina.
+Aplicação **One Page** em Vue 3 para controle simples de estoque: cadastro de produtos, entradas e saídas, histórico de movimentações e alertas de estoque baixo. Desenvolvida como atividade acadêmica de Front-end.
+
+## Funcionalidades
+
+- Cadastro de produtos (nome, categoria, quantidade, preço e estoque mínimo).
+- Pesquisa por nome e filtro por categoria.
+- Registro de entrada e saída de produtos, com observação opcional.
+- Histórico das últimas movimentações.
+- Indicadores (produtos, unidades, valor estimado, produtos em alerta) e painel de alertas.
+- Remoção de produto com confirmação.
+- Layout responsivo (computador e celular).
+
+Os dados ficam apenas na memória da página: ao recarregar, a lista volta ao estado inicial. O projeto não tem backend, API ou banco de dados.
+
+## Tecnologias e limites da atividade
+
+- Vue 3 com componentes `.vue` e `<script setup>` (Vite para rodar o projeto).
+- CSS próprio, sem framework CSS ou biblioteca de interface.
+- Página única, sem Vue Router e sem biblioteca de estado.
+- Somente conteúdo visto em aula: componentes, props, `ref()`, eventos, `v-model`, `v-if`, `v-show`, `v-for` e CSS.
 
 ## Como executar
+
+Requisitos: Node.js e npm.
 
 ```bash
 npm install
 npm run dev
 ```
 
-Depois abra o endereço mostrado no terminal (normalmente `http://localhost:5173`).
+Abra o endereço mostrado no terminal (normalmente `http://localhost:5173`).
 
-## Tema
+## Estrutura
 
-Estoque — cadastro e visualização de produtos, quantidades e valores.
-
-## Estrutura do projeto
-
-```
+```text
 src/
-  App.vue                       -> componente raiz, guarda o estado e a lógica principal
+  App.vue                     Componente raiz: estado (ref) e ações
+  main.js                     Inicialização do Vue
+  style.css                   Estilos globais e variáveis de cor/espaçamento
   components/
-    AppHeader.vue                -> cabeçalho da aplicação
-    ResumoEstoque.vue             -> card de estatística (reutilizado 3x)
-    FormularioProduto.vue         -> formulário de cadastro de produtos
-    ProdutoCard.vue               -> card de um produto (reutilizado via v-for)
-    AppFooter.vue                 -> rodapé da aplicação
+    AppHeader.vue             Cabeçalho (props: titulo, subtitulo)
+    ResumoEstoque.vue         Indicador reutilizado 4 vezes (props: titulo, valor, icone, destaque)
+    FormularioProduto.vue     Formulário de cadastro (prop: categorias; evento: adicionar)
+    ProdutoCard.vue           Card de produto, 1 por item da lista (props: produto, situacao)
+    ModalMovimento.vue        Janela de entrada/saída (props: produto, tipo; eventos: confirmar, cancelar)
+    AppFooter.vue             Rodapé (prop: ano)
 ```
 
-## Requisitos técnicos atendidos
+## Onde estão os conceitos
 
-- Vue.js, aplicação One Page, sem Vue Router
-- Sem bibliotecas externas de UI/CSS
-- 5 componentes `.vue` com `<script setup>`, usados em `App.vue`
-- Reatividade com `ref()` e `computed()` (lista de produtos, totais)
-- Eventos: `@click` (remover produto), `@submit.prevent` (cadastrar produto)
-- Diretivas: `v-if`, `v-show`, `v-for`, `v-model`
-- Props: `titulo`, `subtitulo`, `produto`, `valor`, `icone`, `destaque`, `ano`
-- Reúso de componentes: `ResumoEstoque` (3 usos) e `ProdutoCard` (1 por produto)
-- CSS próprio (scoped) em cada componente
+| Conceito | Onde ver |
+|---|---|
+| `ref()` | `App.vue`: `produtos`, `historico`, `busca`, `categoriaFiltro`, `movimentoEmAberto` |
+| Props | `ProdutoCard.vue` (`produto`, `situacao`), enviadas pelo `App.vue` dentro do `v-for` |
+| Eventos | `@click` em `ProdutoCard.vue`; `@submit.prevent` em `FormularioProduto.vue`; `emit` nos componentes filhos |
+| `v-model` | campos do formulário, pesquisa, filtro de categoria e modal |
+| `v-if` / `v-else` | modal de movimentação, listas vazias e alertas (`App.vue`) |
+| `v-show` | selo "Estoque baixo / Sem estoque" em `ProdutoCard.vue` |
+| `v-for` | cards de produto, indicadores, alertas, categorias e histórico |
+| Reúso | `ResumoEstoque` (4 usos com dados diferentes) e `ProdutoCard` (um por produto) |
 
-## Uso de Inteligência Artificial
+**Exemplo de reatividade:** clicar em "Entrada" ou "Saída" dispara `@click` no `ProdutoCard`, que emite `movimentar`. O `App.vue` guarda o produto e o tipo em `movimentoEmAberto` (um `ref`). Como o `ModalMovimento` usa `v-if="movimentoEmAberto"`, ele aparece na tela. Ao confirmar, `produto.quantidade` muda e a interface atualiza os cards, os indicadores e os alertas.
 
-A IA (Claude) foi utilizada como apoio para estruturar e revisar o código. Os principais prompts utilizados foram:
+## Prompts de IA utilizados
 
-1. **Planejamento dos componentes** (início do desenvolvimento):
-   > "Tenho uma aplicação Vue sobre estoque. Sugira uma divisão em componentes simples e reutilizáveis. Utilize apenas Vue com `<script setup>`, sem bibliotecas externas e sem Vue Router."
+Resumo das solicitações feitas durante o desenvolvimento:
 
-2. **Criação do card de resumo reutilizável** (etapa de componentização):
-   > "Crie um componente Vue simples que receba título e descrição através de props. Utilize `<script setup>` e CSS próprio, sem bibliotecas externas."
+1. **Revisão visual e funcional:** "Analise o Estoque Fácil existente e aprimore dashboard, filtros, ações, relatórios, cálculos, responsividade e acessibilidade. Preserve a arquitetura e os dados existentes e valide o resultado."
+2. **Histórico de movimentações:** "Investigue por que a observação preenchida no modal não aparece nas movimentações recentes. Verifique o fluxo de salvamento e exibição, corrija a interface e mantenha compatibilidade com movimentações antigas sem observação."
+3. **Documentação acadêmica:** "Atualize o README para descrever o projeto real, os componentes Vue, os conceitos demonstráveis, os prompts utilizados e as instruções de execução."
+4. **Adequação ao conteúdo da disciplina:** "Simplifique o App.vue para usar somente o conteúdo visto em aula (componentes, props, ref, eventos, v-model, v-if, v-show, v-for e CSS), sem computed, watch ou outros recursos avançados, mantendo cadastro, filtros, movimentação e alertas, e ajuste o roteiro do vídeo."
+5. **Roteiro do vídeo:** "Ajuste o roteiro para 7 pessoas apresentarem e faça um guia de falas para os integrantes."
 
-3. **Reúso de componente com props diferentes** (etapa de integração no App.vue):
-   > "Como posso reutilizar este componente para apresentar diferentes informações usando props?"
+A IA foi usada como apoio. Todo o código foi revisado, testado e compreendido pela equipe antes da entrega.
 
-4. **Formulário de cadastro** (etapa de interação/reatividade):
-   > "Como utilizar v-model neste formulário Vue? Explique o funcionamento do código."
+## Roteiro do vídeo (máx. 5 min)
 
-5. **Lista de produtos** (etapa de listagem):
-   > "Como utilizar v-for para apresentar esta lista utilizando um componente reutilizável?"
+| Tempo | Integrante | Conteúdo |
+|---|---|---|
+| 0:00–0:25 | 1 | Abertura: equipe, nome do projeto e o problema do estoque |
+| 0:25–1:15 | 2 | Demonstração: cadastrar, filtrar e registrar uma saída que gere alerta |
+| 1:15–1:50 | 3 | `App.vue` e `components`; reúso de `ResumoEstoque` (4x) e `ProdutoCard` (`v-for`) |
+| 1:50–2:30 | 4 | Duas diretivas: `v-for` e `v-show` |
+| 2:30–3:00 | 5 | Uma prop: `produto` (definição, passagem e uso) |
+| 3:00–3:40 | 6 | Reatividade: `ref` `movimentoEmAberto`, evento `@click` e `v-if` do modal |
+| 3:40–4:05 | 7 | CSS: variáveis em `style.css`, estilos `scoped` e `@media` |
+| 4:05–4:45 | 1 | Uso da IA e prompts deste README |
+| 4:45–4:50 | todos | Tela de créditos |
 
-6. **Revisão final** (antes da entrega):
-   > "Revise este código utilizando somente os conceitos básicos de Vue: componentes, props, ref, eventos, v-if, v-for e v-model. Não utilize bibliotecas externas nem conceitos avançados."
+## Repositório e equipe
 
-Todo o código gerado foi revisado e compreendido pela equipe antes da entrega.
-
-## Equipe
-
+- **Repositório público:** (inserir o link do GitHub)
+  
+- **Integrantes:**
 - Alexssandro Souza de Oliveira - 04206917
 - Alyson Raphael Cruz Santos - 04213803
 - Erielson da Silva Teles - 04211403
 - Thiago Viana Tenório - 04211037
 - João Victor Bentes - 04211861
+  
+- **Vídeo de apresentação:** (inserir o link)
