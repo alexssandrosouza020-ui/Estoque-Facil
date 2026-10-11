@@ -1,5 +1,5 @@
 <script setup>
-// Este componente é reutilizado 3 vezes no App.vue, cada vez recebendo
+// Este componente é reutilizado quatro vezes no App.vue, cada vez recebendo
 // props diferentes (título, valor e ícone), demonstrando reúso de componente.
 defineProps({
   titulo: {
@@ -33,31 +33,44 @@ defineProps({
 
 <style scoped>
 .resumo-card {
-  flex: 1;
-  background-color: #ffffff;
-  border-radius: 10px;
+  height: 100%;
+  min-height: 108px;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
   padding: 16px;
   display: flex;
   align-items: center;
   gap: 12px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-soft);
 }
 
 .resumo-card--alerta {
-  border-left: 4px solid #d9534f;
+  border-color: #f1c7c3;
+  background: #fffafa;
 }
 
 .resumo-card__icone {
-  font-size: 1.8rem;
+  display: grid;
+  place-items: center;
+  flex: 0 0 40px;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  background: var(--color-primary-soft);
+  font-size: 1.25rem;
 }
 
 .resumo-card__titulo {
   font-size: 0.85rem;
-  color: #6b7280;
+  color: var(--color-text-muted);
 }
 
 .resumo-card__valor {
-  font-size: 1.4rem;
-  font-weight: 600;
+  color: var(--color-text);
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
 }
 </style>

@@ -1,91 +1,161 @@
 <script setup>
-// Este componente é reutilizado uma vez para cada produto da lista,
-// através de v-for no App.vue, recebendo dados diferentes por props.
+// Props: dados que o App.vue envia para cada card
 const props = defineProps({
   produto: {
     type: Object,
     required: true
+  },
+  situacao: {
+    type: String,
+    default: 'normal' // 'normal', 'baixo' ou 'zerado'
   }
 })
 
-const emit = defineEmits(['remover'])
+// Eventos: o card avisa o App.vue quando o usuário clica em um botão
+const emit = defineEmits(['remover', 'movimentar'])
+
+function formatarMoeda(valor) {
+  return 'R$ ' + Number(valor).toFixed(2).replace('.', ',')
+}
 
 function handleRemover() {
-  emit('remover', props.produto.id)
+  const confirmar = window.confirm('Deseja remover "' + props.produto.nome + '" do estoque?')
+  if (confirmar) {
+    emit('remover', props.produto.id)
+  }
 }
 </script>
 
 <template>
-  <div class="produto-card">
-    <div class="produto-card__info">
-      <h3>{{ produto.nome }}</h3>
-      <p class="produto-card__categoria">{{ produto.categoria }}</p>
+  <article class="produto-card">
+    <div class="produto-card__header">
+      <div>
+        <span class="produto-card__categoria">{{ produto.categoria }}</span>
+        <h3>{{ produto.nome }}</h3>
+      </div>
+
+      <!-- v-show: o elemento sempre existe, só alterna entre visível e escondido -->
+      <span v-show="situacao !== 'normal'" class="produto-card__badge">
+        {{ situacao === 'zerado' ? 'Sem estoque' : 'Estoque baixo' }}
+      </span>
     </div>
 
     <div class="produto-card__dados">
       <span>Qtd: <strong>{{ produto.quantidade }}</strong></span>
-      <span>R$ {{ produto.preco.toFixed(2) }}</span>
+      <span>Preço: <strong>{{ formatarMoeda(produto.preco) }}</strong></span>
+      <span>Mínimo: <strong>{{ produto.estoqueMinimo }}</strong></span>
     </div>
 
-    <span v-show="produto.quantidade < 5" class="produto-card__badge">
-      Estoque baixo
-    </span>
-
-    <button class="produto-card__remover" @click="handleRemover">
-      Remover
-    </button>
-  </div>
+    <div class="produto-card__acoes">
+      <button type="button" class="botao botao--entrada" @click="emit('movimentar', produto.id, 'entrada')">
+        Entrada
+      </button>
+      <button type="button" class="botao botao--saida" @click="emit('movimentar', produto.id, 'saida')">
+        Saída
+      </button>
+      <button type="button" class="botao botao--remover" @click="handleRemover">
+        Remover
+      </button>
+    </div>
+  </article>
 </template>
 
 <style scoped>
 .produto-card {
-  background-color: #ffffff;
-  border-radius: 10px;
-  padding: 14px 16px;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
-  margin-bottom: 10px;
-  position: relative;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  box-shadow: var(--shadow-soft);
 }
 
-.produto-card__info {
-  flex: 1;
+.produto-card__header {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+  align-items: flex-start;
+  margin-bottom: var(--space-3);
 }
 
 .produto-card__categoria {
-  font-size: 0.8rem;
-  color: #6b7280;
+  display: inline-block;
+  font-size: 0.7rem;
+  color: var(--color-primary);
+  background: var(--color-primary-soft);
+  border-radius: 999px;
+  padding: 5px 8px;
+  font-weight: 700;
+  margin-bottom: 6px;
 }
 
-.produto-card__dados {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  font-size: 0.9rem;
-  gap: 2px;
-  min-width: 90px;
+.produto-card h3 {
+  font-size: 1.08rem;
+  color: var(--color-text);
 }
 
 .produto-card__badge {
-  background-color: #fdecea;
-  color: #d9534f;
-  font-size: 0.75rem;
-  padding: 4px 8px;
-  border-radius: 6px;
-  font-weight: 600;
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 6px 8px;
+  border-radius: 999px;
+  white-space: nowrap;
 }
 
-.produto-card__remover {
-  background-color: #f4f6f8;
-  color: #d9534f;
-  padding: 6px 10px;
-  border-radius: 6px;
-  font-size: 0.85rem;
+.produto-card__dados {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+  color: var(--color-text-soft);
+  font-size: 0.84rem;
 }
 
-.produto-card__remover:hover {
-  background-color: #fdecea;
+.produto-card__dados strong {
+  color: var(--color-text);
+}
+
+.produto-card__acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.botao {
+  border-radius: 10px;
+  padding: 9px 12px;
+  font-weight: 700;
+  transition: transform var(--transition), filter var(--transition);
+}
+
+.botao:hover {
+  transform: translateY(-1px);
+  filter: brightness(0.97);
+}
+
+.botao--entrada {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.botao--saida {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.botao--remover {
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
+}
+
+@media (max-width: 640px) {
+  .produto-card__dados {
+    grid-template-columns: 1fr;
+  }
+
+  .produto-card__acoes .botao {
+    flex: 1 1 0;
+  }
 }
 </style>

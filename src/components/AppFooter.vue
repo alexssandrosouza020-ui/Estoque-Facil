@@ -9,17 +9,20 @@ defineProps({
 
 <template>
   <footer class="app-footer">
-    <p>Estoque Fácil &copy; {{ ano }} — Projeto acadêmico desenvolvido em Vue.js</p>
+    <div class="container">
+      <p>Estoque Fácil © {{ ano }} — Projeto acadêmico de gestão de estoques.</p>
+    </div>
   </footer>
 </template>
 
 <style scoped>
 .app-footer {
   margin-top: auto;
-  background-color: #1f2933;
-  color: #cbd2d9;
+  background: #0f172a;
+  color: #cbd5e1;
   text-align: center;
-  padding: 16px 0;
-  font-size: 0.85rem;
+  padding: 18px 0;
+  font-size: 0.8rem;
+  border-top: 1px solid rgba(148, 163, 184, 0.2);
 }
 </style>
