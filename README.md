@@ -94,6 +94,13 @@ A IA foi usada como apoio. Todo o código foi revisado, testado e compreendido p
 
 ## Repositório e equipe
 
-- **Repositório público:** (inserir o link do GitHub)
-- **Integrantes:** (nomes de todos os integrantes)
+- **Repositório público:** 
+- 
+- **Integrantes:**
+- Alexssandro Souza de Oliveira - 04206917
+- Alyson Raphael Cruz Santos - 04213803
+- Erielson da Silva Teles - 04211403
+- Thiago Viana Tenório - 04211037
+- João Victor Bentes - 04211861
+- 
 - **Vídeo de apresentação:** (inserir o link)
