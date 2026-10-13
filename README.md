@@ -77,20 +77,6 @@ Resumo das solicitações feitas durante o desenvolvimento:
 
 A IA foi usada como apoio. Todo o código foi revisado, testado e compreendido pela equipe antes da entrega.
 
-## Roteiro do vídeo
-
-| Tempo | Integrante | Conteúdo |
-|---|---|---|
-| 0:00–0:25 | 1 | Abertura: equipe, nome do projeto e o problema do estoque |
-| 0:25–1:20 | 2 | Demonstração: cadastrar, filtrar, registrar uma saída que gere alerta e editar o produto |
-| 1:20–1:50 | 3 | `App.vue` e os 7 componentes; reúso de `ResumoEstoque` (4x) e `ProdutoCard` (`v-for`) |
-| 1:50–2:30 | 4 | Duas diretivas: `v-for` e `v-show` |
-| 2:30–3:00 | 5 | Uma prop: `produto` (definição, passagem e uso) |
-| 3:00–3:40 | 6 | Reatividade: `ref` `movimentoEmAberto`, evento `@click` e `v-if` do modal |
-| 3:40–4:05 | 7 | CSS: variáveis em `style.css`, estilos `scoped` e `@media` |
-| 4:05–4:45 | 1 | Uso da IA e prompts deste README |
-| 4:45–4:50 | todos | Tela de créditos |
-
 ## Repositório e equipe
 
 - **Repositório público:** https://github.com/alexssandrosouza020-ui/Estoque-Facil
