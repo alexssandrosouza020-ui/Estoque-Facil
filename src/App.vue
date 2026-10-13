@@ -6,6 +6,7 @@ import ResumoEstoque from './components/ResumoEstoque.vue'
 import FormularioProduto from './components/FormularioProduto.vue'
 import ProdutoCard from './components/ProdutoCard.vue'
 import ModalMovimento from './components/ModalMovimento.vue'
+import ModalEditarProduto from './components/ModalEditarProduto.vue'
 
 // ---------------------------------------------------------------
 // ESTADO REATIVO (ref): quando um valor muda, a tela atualiza sozinha
@@ -21,9 +22,12 @@ const historico = ref([])          // lista de movimentações registradas
 const busca = ref('')              // texto digitado na pesquisa
 const categoriaFiltro = ref('')    // categoria escolhida no filtro
 const movimentoEmAberto = ref(null) // null = modal fechado; { id, tipo } = modal aberto
+const produtoEmEdicao = ref(null)  // null = modal fechado; id do produto = modal de edição aberto
+const mensagem = ref('')           // mensagem de sucesso exibida na tela (vazia = escondida)
 
 let proximoIdProduto = 5
 let proximoIdMovimento = 1
+let temporizadorMensagem = null
 
 // ---------------------------------------------------------------
 // FUNÇÕES AUXILIARES (usadas no template)
@@ -85,6 +89,7 @@ function limparFiltros() {
 function rotuloMovimento(tipo) {
   if (tipo === 'entrada') return 'Entrada'
   if (tipo === 'saida') return 'Saída'
+  if (tipo === 'edicao') return 'Edição'
   if (tipo === 'cadastro') return 'Cadastro'
   return 'Remoção'
 }
@@ -92,7 +97,7 @@ function rotuloMovimento(tipo) {
 // ---------------------------------------------------------------
 // AÇÕES (chamadas pelos eventos dos componentes filhos)
 // ---------------------------------------------------------------
-function registrarHistorico(tipo, nomeProduto, quantidade, observacao) {
+function registrarHistorico(tipo, nomeProduto, quantidade, observacao, camposAlterados) {
   // unshift coloca o item mais novo no começo da lista
   historico.value.unshift({
     id: proximoIdMovimento++,
@@ -100,6 +105,7 @@ function registrarHistorico(tipo, nomeProduto, quantidade, observacao) {
     produto: nomeProduto,
     quantidade: quantidade,
     observacao: observacao || '',
+    camposAlterados: camposAlterados || [],
     data: new Date().toLocaleString('pt-BR')
   })
 }
@@ -129,6 +135,54 @@ function produtoDoMovimento() {
 
 function fecharMovimento() {
   movimentoEmAberto.value = null
+}
+
+// Mostra uma mensagem de sucesso por 3 segundos
+function mostrarMensagem(texto) {
+  mensagem.value = texto
+  clearTimeout(temporizadorMensagem)
+  temporizadorMensagem = setTimeout(() => {
+    mensagem.value = ''
+  }, 3000)
+}
+
+// Evento "editar" vindo do ProdutoCard: guarda o id do produto em edição.
+// Como o modal usa v-if, ele aparece sozinho.
+function abrirEdicao(id) {
+  produtoEmEdicao.value = id
+}
+
+function produtoDaEdicao() {
+  return produtos.value.find((item) => item.id === produtoEmEdicao.value)
+}
+
+function fecharEdicao() {
+  produtoEmEdicao.value = null
+}
+
+// Evento "salvar" vindo do ModalEditarProduto
+function salvarEdicao(dados) {
+  const produto = produtoDaEdicao()
+  const camposAlterados = []
+
+  if (produto.nome !== dados.nome) camposAlterados.push('nome')
+  if (produto.preco !== dados.preco) camposAlterados.push('preço')
+  if ((produto.estoqueMinimo ?? 0) !== dados.estoqueMinimo) camposAlterados.push('estoque mínimo')
+
+  if (camposAlterados.length === 0) {
+    fecharEdicao()
+    mostrarMensagem('Nenhuma alteração foi feita.')
+    return
+  }
+
+  // Atualiza o produto (a tela atualiza sozinha porque "produtos" é um ref)
+  produto.nome = dados.nome
+  produto.preco = dados.preco
+  produto.estoqueMinimo = dados.estoqueMinimo
+
+  registrarHistorico('edicao', produto.nome, produto.quantidade, '', camposAlterados)
+  fecharEdicao()
+  mostrarMensagem('Produto "' + produto.nome + '" atualizado com sucesso!')
 }
 
 // Evento "confirmar" vindo do ModalMovimento
@@ -220,6 +274,7 @@ function confirmarMovimento(dados) {
           :produto="produto"
           :situacao="situacaoEstoque(produto)"
           @movimentar="abrirMovimento"
+          @editar="abrirEdicao"
           @remover="removerProduto"
         />
       </div>
@@ -235,9 +290,13 @@ function confirmarMovimento(dados) {
             {{ rotuloMovimento(movimento.tipo) }}
           </span>
           <div class="historico__info">
-            <strong>{{ movimento.produto }}</strong> — {{ movimento.quantidade }} un.
+            <strong>{{ movimento.produto }}</strong>
+            <span v-if="movimento.tipo !== 'edicao'"> — {{ movimento.quantidade }} un.</span>
             <small>{{ movimento.data }}</small>
-            <em v-if="movimento.observacao">“{{ movimento.observacao }}”</em>
+            <em v-if="movimento.tipo === 'edicao'">
+              Campos alterados: {{ movimento.camposAlterados.join(', ') }}
+            </em>
+            <em v-else-if="movimento.observacao">“{{ movimento.observacao }}”</em>
           </div>
         </li>
       </ul>
@@ -253,6 +312,17 @@ function confirmarMovimento(dados) {
     @confirmar="confirmarMovimento"
     @cancelar="fecharMovimento"
   />
+
+  <!-- v-if: o modal de edição só existe enquanto produtoEmEdicao não for null -->
+  <ModalEditarProduto
+    v-if="produtoEmEdicao"
+    :produto="produtoDaEdicao()"
+    @salvar="salvarEdicao"
+    @cancelar="fecharEdicao"
+  />
+
+  <!-- Mensagem de sucesso: aparece quando "mensagem" tem texto -->
+  <div v-if="mensagem" class="mensagem-sucesso" role="status">{{ mensagem }}</div>
 
   <AppFooter />
 </template>
@@ -429,6 +499,26 @@ h2 {
 .historico__tipo--remocao {
   background: var(--color-danger-soft);
   color: var(--color-danger);
+}
+
+/* Mensagem de sucesso */
+.mensagem-sucesso {
+  position: fixed;
+  right: var(--space-5);
+  bottom: var(--space-5);
+  max-width: calc(100% - 2 * var(--space-5));
+  background: var(--color-primary);
+  color: #ffffff;
+  padding: 12px 18px;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  box-shadow: var(--shadow-soft);
+  z-index: 20;
+}
+
+.historico__tipo--edicao {
+  background: #e0e7ff;
+  color: #3730a3;
 }
 
 /* Responsividade */

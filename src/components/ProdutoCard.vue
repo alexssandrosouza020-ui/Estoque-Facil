@@ -12,7 +12,7 @@ const props = defineProps({
 })
 
 // Eventos: o card avisa o App.vue quando o usuário clica em um botão
-const emit = defineEmits(['remover', 'movimentar'])
+const emit = defineEmits(['remover', 'movimentar', 'editar'])
 
 function formatarMoeda(valor) {
   return 'R$ ' + Number(valor).toFixed(2).replace('.', ',')
@@ -52,6 +52,9 @@ function handleRemover() {
       </button>
       <button type="button" class="botao botao--saida" @click="emit('movimentar', produto.id, 'saida')">
         Saída
+      </button>
+      <button type="button" class="botao botao--editar" @click="emit('editar', produto.id)">
+        Editar
       </button>
       <button type="button" class="botao botao--remover" @click="handleRemover">
         Remover
@@ -142,6 +145,11 @@ function handleRemover() {
 .botao--saida {
   background: #fef3c7;
   color: #92400e;
+}
+
+.botao--editar {
+  background: #e0e7ff;
+  color: #3730a3;
 }
 
 .botao--remover {
