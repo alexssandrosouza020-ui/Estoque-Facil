@@ -73,8 +73,7 @@ Resumo das solicitações feitas durante o desenvolvimento:
 2. **Histórico de movimentações:** "Investigue por que a observação preenchida no modal não aparece nas movimentações recentes. Verifique o fluxo de salvamento e exibição, corrija a interface e mantenha compatibilidade com movimentações antigas sem observação."
 3. **Documentação acadêmica:** "Atualize o README para descrever o projeto real, os componentes Vue, os conceitos demonstráveis, os prompts utilizados e as instruções de execução."
 4. **Adequação ao conteúdo da disciplina:** "Simplifique o App.vue para usar somente o conteúdo visto em aula (componentes, props, ref, eventos, v-model, v-if, v-show, v-for e CSS), sem computed, watch ou outros recursos avançados, mantendo cadastro, filtros, movimentação e alertas, e ajuste o roteiro do vídeo."
-5. **Roteiro do vídeo:** "Ajuste o roteiro para 7 pessoas apresentarem e faça um guia de falas para os integrantes."
-6. **Edição de produto:** "Adicione uma funcionalidade de edição de produto ao sistema de estoque: botão Editar em cada card, modal com o mesmo visual dos modais de entrada e saída (nome, preço e estoque mínimo), validações, mensagem de sucesso e registro da edição no histórico com os campos alterados."
+5. **Edição de produto:** "Adicione uma funcionalidade de edição de produto ao sistema de estoque: botão Editar em cada card, modal com o mesmo visual dos modais de entrada e saída (nome, preço e estoque mínimo), validações, mensagem de sucesso e registro da edição no histórico com os campos alterados."
 
 A IA foi usada como apoio. Todo o código foi revisado, testado e compreendido pela equipe antes da entrega.
 
@@ -94,13 +93,13 @@ A IA foi usada como apoio. Todo o código foi revisado, testado e compreendido p
 
 ## Repositório e equipe
 
-- **Repositório público:** 
-- 
+- **Repositório público:** https://github.com/alexssandrosouza020-ui/Estoque-Facil
+  
 - **Integrantes:**
 - Alexssandro Souza de Oliveira - 04206917
 - Alyson Raphael Cruz Santos - 04213803
 - Erielson da Silva Teles - 04211403
 - Thiago Viana Tenório - 04211037
 - João Victor Bentes - 04211861
-- 
+  
 - **Vídeo de apresentação:** (inserir o link)
