@@ -77,7 +77,7 @@ Resumo das solicitações feitas durante o desenvolvimento:
 
 A IA foi usada como apoio. Todo o código foi revisado, testado e compreendido pela equipe antes da entrega.
 
-## Roteiro do vídeo (máx. 5 min)
+## Roteiro do vídeo
 
 | Tempo | Integrante | Conteúdo |
 |---|---|---|
