@@ -71,9 +71,9 @@ Resumo das solicitações feitas durante o desenvolvimento:
 
 1. **Revisão visual e funcional:** "Analise o Estoque Fácil existente e aprimore dashboard, filtros, ações, relatórios, cálculos, responsividade e acessibilidade. Preserve a arquitetura e os dados existentes e valide o resultado."
 2. **Histórico de movimentações:** "Investigue por que a observação preenchida no modal não aparece nas movimentações recentes. Verifique o fluxo de salvamento e exibição, corrija a interface e mantenha compatibilidade com movimentações antigas sem observação."
-3. **Documentação acadêmica:** "Atualize o README para descrever o projeto real, os componentes Vue, os conceitos demonstráveis, os prompts utilizados e as instruções de execução."
-4. **Adequação ao conteúdo da disciplina:** "Simplifique o App.vue para usar somente o conteúdo visto em aula (componentes, props, ref, eventos, v-model, v-if, v-show, v-for e CSS), sem computed, watch ou outros recursos avançados, mantendo cadastro, filtros, movimentação e alertas."
-5. **Edição de produto:** "Adicione uma funcionalidade de edição de produto ao sistema de estoque: botão Editar em cada card, modal com o mesmo visual dos modais de entrada e saída (nome, preço e estoque mínimo), validações, mensagem de sucesso e registro da edição no histórico com os campos alterados."
+3. **Adequação ao conteúdo da disciplina:** "Simplifique o App.vue para usar somente o conteúdo visto em aula (componentes, props, ref, eventos, v-model, v-if, v-show, v-for e CSS), sem computed, watch ou outros recursos avançados, mantendo cadastro, filtros, movimentação e alertas."
+4. **Edição de produto:** "Adicione uma funcionalidade de edição de produto ao sistema de estoque: botão Editar em cada card, modal com o mesmo visual dos modais de entrada e saída (nome, preço e estoque mínimo), validações, mensagem de sucesso e registro da edição no histórico com os campos alterados."
+5. **Documentação acadêmica:** "Atualize o README para descrever o projeto real, os componentes Vue, os conceitos demonstráveis, os prompts utilizados e as instruções de execução."
 
 A IA foi usada como apoio. Todo o código foi revisado, testado e compreendido pela equipe antes da entrega.
 
