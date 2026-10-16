@@ -75,10 +75,10 @@ Resumo das solicitações feitas durante o desenvolvimento:
 2. **Criação do card de resumo reutilizável**
    > "Crie um componente Vue simples que receba título e descrição através de props. Utilize `<script setup>` e CSS próprio, sem bibliotecas externas."
 
-3. **Reúso de componente com props diferentes** (etapa de integração no App.vue):
+3. **Reúso de componente com props diferentes** 
    > "Como posso reutilizar este componente para apresentar diferentes informações usando props?"
 
-4. **Formulário de cadastro** (etapa de interação/reatividade):
+4. **Formulário de cadastro** 
    > "Como utilizar v-model neste formulário Vue? Explique o funcionamento do código."
 
 5. **Lista de produtos** 
