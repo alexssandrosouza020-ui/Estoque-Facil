@@ -69,9 +69,24 @@ src/
 
 Resumo das solicitações feitas durante o desenvolvimento:
 
+1. **Planejamento dos componentes** 
+   > "Tenho uma aplicação Vue sobre estoque. Sugira uma divisão em componentes simples e reutilizáveis. Utilize apenas Vue com `<script setup>`, sem bibliotecas externas e sem Vue Router."
+
+2. **Criação do card de resumo reutilizável**
+   > "Crie um componente Vue simples que receba título e descrição através de props. Utilize `<script setup>` e CSS próprio, sem bibliotecas externas."
+
+3. **Reúso de componente com props diferentes** (etapa de integração no App.vue):
+   > "Como posso reutilizar este componente para apresentar diferentes informações usando props?"
+
+4. **Formulário de cadastro** (etapa de interação/reatividade):
+   > "Como utilizar v-model neste formulário Vue? Explique o funcionamento do código."
+
+5. **Lista de produtos** 
+   > "Como utilizar v-for para apresentar esta lista utilizando um componente reutilizável?"
+
 1. **Revisão visual e funcional:** "Analise o Estoque Fácil existente e aprimore dashboard, filtros, ações, relatórios, cálculos, responsividade e acessibilidade. Preserve a arquitetura e os dados existentes e valide o resultado."
 2. **Histórico de movimentações:** "Investigue por que a observação preenchida no modal não aparece nas movimentações recentes. Verifique o fluxo de salvamento e exibição, corrija a interface e mantenha compatibilidade com movimentações antigas sem observação."
-3. **Adequação ao conteúdo da disciplina:** "Simplifique o App.vue para usar somente o conteúdo visto em aula (componentes, props, ref, eventos, v-model, v-if, v-show, v-for e CSS), sem computed, watch ou outros recursos avançados, mantendo cadastro, filtros, movimentação e alertas."
+3. **Adequação ao conteúdo da disciplina:** "Simplifique o App.vue para usar somente o conteúdo visto em aula (componentes, props, ref, eventos, v-model, v-if, v-show, v-for e CSS), mantendo cadastro, filtros, movimentação e alertas."
 4. **Edição de produto:** "Adicione uma funcionalidade de edição de produto ao sistema de estoque: botão Editar em cada card, modal com o mesmo visual dos modais de entrada e saída (nome, preço e estoque mínimo), validações, mensagem de sucesso e registro da edição no histórico com os campos alterados."
 5. **Documentação acadêmica:** "Atualize o README para descrever o projeto real, os componentes Vue, os conceitos demonstráveis, os prompts utilizados e as instruções de execução."
 
