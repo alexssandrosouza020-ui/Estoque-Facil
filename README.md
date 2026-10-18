@@ -113,4 +113,4 @@ A IA foi usada como apoio. Todo o código foi revisado, testado e compreendido p
 - Benedito Graziel de Souza Farias - 04208454
 
   
-- **Vídeo de apresentação:** (inserir o link)
+- **Vídeo de apresentação:** https://drive.google.com/file/d/1Vt6xs_7uk6oR09gup35Jxm_O8vasPcHg/view?usp=drivesdk
